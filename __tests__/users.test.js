@@ -104,4 +104,18 @@ describe('user routes', () => {
     const resp = await agent.delete('/api/v1/users/sessions');
     expect(resp.status).toBe(204);
   });
+
+  it('POST adds item to list', async () => {
+    const [agent] = await registerAndLogin();
+    const newItem = {
+      'item': 'shoe',
+      'color': 'black',
+    };
+    const res = await agent.post('/api/v1/lists').send(newItem);
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      user_id: expect.any(String),
+      ...newItem
+    });
+  });
 });
